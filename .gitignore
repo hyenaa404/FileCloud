@@ -1,2 +1,30 @@
 /back-end/FileCloud/build/
 /back-end/FileCloud/dist/
+
+
+
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/front-end/file-cloud/node_modules
+/front-end/file-cloud/.pnp
+.pnp.js
+
+# testing
+/front-end/file-cloud/coverage
+
+# production
+/front-end/file-cloud/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
