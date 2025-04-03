@@ -37,7 +37,7 @@ public class FileDAO {
     
     public File getFileByID(int fileID) throws Exception{
         File file;
-        String query = "SELECT * FROM File WHERE FileID = ?";
+        String query = "SELECT * FROM Files WHERE FileID = ?";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, fileID);
@@ -55,6 +55,7 @@ public class FileDAO {
                             rs.getString("PrivacyLevel")
                             
                     );
+                    return file;
                            
 //    
                 }
@@ -65,6 +66,16 @@ public class FileDAO {
         }
 
         return null;
+    }
+    
+    public static void main(String[] args) {
+        FileDAO dao = new FileDAO();
+        try {
+            File file = dao.getFileByID(1);
+        System.out.println(file.getFilePath());
+        }catch(Exception e){
+            System.out.println("Error");
+        }
     }
 
 }

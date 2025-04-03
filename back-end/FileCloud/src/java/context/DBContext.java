@@ -52,7 +52,7 @@ public class DBContext {
             
             DBContext dbConn = new DBContext();
             Connection conn = dbConn.getConnection();
-            System.out.println("Kết nối thành công!");
+            System.out.println("Connect successfully!");
         } catch (Exception e) {
             e.printStackTrace();
         }
