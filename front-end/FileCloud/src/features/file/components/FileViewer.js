@@ -9,6 +9,7 @@ const FileViewer = () => {
     const status = useSelector((state) => state.file.status);
 
     useEffect(() => {
+        
         dispatch(fetchFile(1));
     }, [dispatch]);
 

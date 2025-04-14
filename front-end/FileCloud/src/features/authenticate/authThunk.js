@@ -1,5 +1,5 @@
 import { createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
-import { loginAPI, registerAPI, logoutAPI } from "./authAPI";
+import { loginAPI, registerAPI, logoutAPI, authenticateAPI } from "./authAPI";
 
 
 export const login = createAsyncThunk("auth/login",async(data, {rejectWithValue}) => {
@@ -39,3 +39,20 @@ export const logout = createAsyncThunk("auth/logout", async( {rejectWithValue}) 
         })
     }
 })
+
+// export const checkAuthStatus = createAsyncThunk("auth/check-status", async() => {
+//     const response = await authenticateAPI();
+//     return response.data
+// })
+
+export const checkAuthStatus = createAsyncThunk(
+    "auth/checkAuthStatus",
+    async () => {
+        const res = await authenticateAPI();
+        // const data = res.json();
+        return res.data;
+        // else return thunkAPI.rejectWithValue({ message: "unauthorized" });
+      
+    }
+  );
+  
