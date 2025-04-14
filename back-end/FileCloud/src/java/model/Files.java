@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author LENOVO
  */
-public class File {
+public class Files {
     
 
     private int fileID;
@@ -22,10 +22,10 @@ public class File {
     private Date uploadedAt;
     private String prvacyLevel;
 
-    public File() {
+    public Files() {
     }
 
-    public File(int fileID, String name, int folderID, String fileType, int ownerID, String filePath, Date uploadedAt, String prvacyLevel) {
+    public Files(int fileID, String name, int folderID, String fileType, int ownerID, String filePath, Date uploadedAt, String prvacyLevel) {
         this.fileID = fileID;
         this.name = name;
         this.folderID = folderID;

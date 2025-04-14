@@ -12,9 +12,35 @@
         <servlet-name>DashboardServlet</servlet-name>
         <servlet-class>controller.main.DashboardServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListFileServlet</servlet-name>
+        <servlet-class>controller.main.ListFileServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>RequestAccessServlet</servlet-name>
+        <servlet-class>controller.accessibility.RequestAccessServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeniedAccessServlet</servlet-name>
+        <servlet-class>controller.accessibility.DeniedAccessServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>DashboardServlet</servlet-name>
         <url-pattern>/dashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListFileServlet</servlet-name>
+        <url-pattern>/ListFileServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>RequestAccessServlet</servlet-name>
+        <url-pattern>/request-access</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeniedAccessServlet</servlet-name>
+        <url-pattern>/denied-access</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>dashboard</welcome-file>

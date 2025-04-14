@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/file-cloud/back-end/FileCloud/src/java/controller/main/FileServlet.java</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/file-cloud/back-end/FileCloud/src/java/context/DBContext.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/file-cloud/back-end/FileCloud/src/java/controller/main/DashboardServlet.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/file-cloud/back-end/FileCloud/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/file-cloud/back-end/FileCloud/src/java/context/FileDAO.java</file>
+            <file>file:/C:/Users/LENOVO/Documents/NetBeansProjects/file-cloud/back-end/FileCloud/src/java/controller/filter/CORSFilter.java</file>
         </group>
     </open-files>
 </project-private>

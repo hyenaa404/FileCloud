@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFile } from "./fileSlide";
+// import { fetchFile } from "./fileSlide";
+import { fetchFile } from "../fileThunk";
 
 const FileViewer = () => {
     const dispatch = useDispatch();
@@ -8,7 +9,7 @@ const FileViewer = () => {
     const status = useSelector((state) => state.file.status);
 
     useEffect(() => {
-        dispatch(fetchFile());
+        dispatch(fetchFile(1));
     }, [dispatch]);
 
     if (status === "loading") return <p>Loading file...</p>;
