@@ -29,15 +29,29 @@ export const register = createAsyncThunk("auth/register", async(data, {rejectWit
 })
 
 
-export const logout = createAsyncThunk("auth/logout", async( {rejectWithValue}) => {
+// export const logout = createAsyncThunk("auth/logout", async( {rejectWithValue}) => {
+//     try{
+//         const response = await logoutAPI();
+//         console.log(response)
+//         return response.data;
+//     }catch(err){
+//         console.log("error: "+ err)
+//         return rejectWithValue({
+//             status: err.response?.status
+//     })
+//     }
+// })
+
+
+export const logout = createAsyncThunk("auth/logout", async() => {
     try{
         const response = await logoutAPI();
         return response.status
-    }catch(err){
-        return rejectWithValue({
-            status: err.response?.status
-        })
+    }catch (err) {
+        console.log("error: "+ err)
+        throw err
     }
+    
 })
 
 // export const checkAuthStatus = createAsyncThunk("auth/check-status", async() => {

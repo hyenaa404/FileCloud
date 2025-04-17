@@ -1,12 +1,12 @@
 
 import React from 'react';
 import {Link, Outlet } from 'react-router-dom';
-import {HomeNavbar} from '../components/common/Navbar';
+import {LandingNavbar} from '../components/common/Navbar';
 
-const MainLayout = () => {
+const LandingLayout = () => {
   return (
     <div>
-      <HomeNavbar />
+      <LandingNavbar />
       <main className="main-content">
         <Outlet />
       </main>
@@ -14,4 +14,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default LandingLayout;

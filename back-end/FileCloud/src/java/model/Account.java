@@ -28,6 +28,14 @@ public class Account {
         this.createdAt = timePickup;
     }
 
+    public Account(String fullName, String email, Date createdAt) {
+        this.fullName = fullName;
+        this.email = email;
+        this.createdAt = createdAt;
+    }
+    
+    
+
     public int getUserID() {
         return userID;
     }

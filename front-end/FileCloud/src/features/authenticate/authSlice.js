@@ -16,7 +16,8 @@ const authSlice = createSlice({
                     state.status = "succeeded";
                     state.user = action.payload.data;
                     state.isAuthenticated = true;
-                    // console.log(action.payload.data)
+                    state.error = null;
+                    console.log("isAuthenticated: " + state.isAuthenticated)
                 })
                 .addCase(login.rejected, (state, action) => {
                     console.log("error code: " + action.payload.status)
@@ -30,6 +31,7 @@ const authSlice = createSlice({
                 .addCase(register.fulfilled,(state, action)=> {
                     state.status = "succeeded"
                     state.user = action.payload.data
+                    state.error = null
                     console.log(state.user)
                 })   
                 .addCase(register.rejected, (state, action)=>{
@@ -44,10 +46,13 @@ const authSlice = createSlice({
                 .addCase(logout.fulfilled, (state, action)=>{
                     state.status="succeeded";
                     state.isAuthenticated = false;
+                    state.user = null;
+                    state.error = null;
+                    console.log("success : " + action.payload)
                 })
-                .addCase(logout.rejected,(state, action)=>{
+                .addCase(logout.rejected,(state, err)=>{
                     state.status = "failed"
-                    console.log("error code: " + action.payload.status)
+                    console.log("error code: " + err)
                 })
 
                 //check authenticate status
@@ -59,6 +64,7 @@ const authSlice = createSlice({
                     state.user = action.payload.user
                     state.status = "succeeded"
                     console.log(action.payload)
+                    state.error = null;
                 })
                 .addCase (checkAuthStatus.rejected, (state, action)=> {
                     state.status = "failed"

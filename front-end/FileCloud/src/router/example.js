@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../layouts/LandingLayout";
 import ProtectedLayout from "../layouts/ProtectedLayout";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/LoginPage";

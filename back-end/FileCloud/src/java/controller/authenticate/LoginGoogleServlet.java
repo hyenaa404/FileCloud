@@ -6,26 +6,25 @@ package controller.authenticate;
 
 import com.google.gson.Gson;
 import context.AccountDAO;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.BufferedReader;
 import model.Account;
-import org.json.JSONObject;
-import util.PasswordUtil;
+import model.GoogleAccount;
+import util.GoogleUtils;
 
 /**
  *
  * @author LENOVO
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "LoginGoogleServlet", urlPatterns = {"/login-google"})
+public class LoginGoogleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +43,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet LoginGoogleServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginGoogleServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,7 +64,44 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String code = request.getParameter("code");
+        if (code == null || code.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } else {
+            Account responseAccount = null;
+            String accessToken = GoogleUtils.getToken(code);
+            GoogleAccount googlePojo = GoogleUtils.getUserInfo(accessToken);
+
+            HttpSession session = request.getSession();
+            if (!isAccountExist(googlePojo.getEmail())) {
+                account = new Account();
+                account.setFullName(googlePojo.getName());
+                account.setEmail(googlePojo.getEmail());
+                if(accountDAO.createAccountGoogle(account)){
+                    responseAccount = accountDAO.checkAccountByEmail(account.getEmail());
+                }else {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                }
+
+            }
+            response.setContentType("application/json");
+            PrintWriter out = response.getWriter();
+            session.setAttribute("user", account);
+            session.setMaxInactiveInterval(10 * 24 * 60 * 60);out.print("{\"user\": " + new Gson().toJson(responseAccount) + "}");
+            response.sendRedirect("http://localhost:3000/login-google");
+        }
+    }
+    AccountDAO accountDAO = new AccountDAO();
+    Account account;
+
+    protected boolean isAccountExist(String email) {
+
+        account = accountDAO.checkAccountByEmail(email);
+        if (account == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -79,48 +115,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        BufferedReader reader = request.getReader();
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line);
-        }
-
-        String jsonString = sb.toString();
-
-        JSONObject json = new JSONObject(jsonString);
-        String email = json.getString("email");
-        String pass = json.getString("password");
-
-//        String email = request.getParameter("email");
-//        String pass = request.getParameter("password");
-        AccountDAO accountDAO = new AccountDAO();
-        HttpSession session = request.getSession();
-//        String sessionId = session.getId();
-//
-//// Tạo cookie mới với JSESSIONID và path "/"
-//        Cookie jsessionCookie = new Cookie("JSESSIONID", sessionId);
-//        jsessionCookie.setHttpOnly(true);
-//        jsessionCookie.setPath("/"); 
-//        response.addCookie(jsessionCookie);
-
-        Account account = accountDAO.checkAccountByEmail(email);
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        if (account == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        } else {
-//            if(PasswordUtil.checkPassword(pass, account.getPassword())) {
-            if (pass.equals(account.getPassword())) {
-                session.setAttribute("user", account);
-                session.setMaxInactiveInterval(10 * 24 * 60 * 60);
-                Account responseAccount = new Account(account.getFullName(), account.getEmail(), account.getCreatedAt());
-                out.print("{\"user\": " + new Gson().toJson(responseAccount) + "}");
-            } else {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            }
-        }
+        processRequest(request, response);
     }
 
     /**

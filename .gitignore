@@ -1,6 +1,10 @@
 /back-end/FileCloud/build/
 /back-end/FileCloud/dist/
 
+# Ignore Google credentials
+config.properties
+
+
 
 
 
