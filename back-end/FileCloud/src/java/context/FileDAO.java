@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Files;
 
 /**
@@ -67,19 +69,22 @@ public class FileDAO {
     }
     
     
-    public Files getFileByParentID(int parentID) throws Exception{
-        
+    public List<Files> getFilesByParentID(int parentID, int userID) throws Exception{
+        List<Files> files = new ArrayList<>();
         Files file;
         String query = "SELECT * FROM Files WHERE FolderID = ?";
         if (parentID == 0){
-            query = "SELECT * FROM Files WHERE FolderID IS NULL";
+            query = "SELECT * FROM Files WHERE FolderID IS NULL AND OwnerID = ?";
         }
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, parentID);
+            if(parentID == 0){
+                ps.setInt(1, userID);
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     file = new Files(
                             rs.getInt("FileID"),
                             rs.getString("Name"),
@@ -91,9 +96,7 @@ public class FileDAO {
                             rs.getString("PrivacyLevel")
                             
                     );
-                    return file;
-                           
-//    
+                    files.add(file);
                 }
             }
         } catch (SQLException e) {
@@ -101,7 +104,7 @@ public class FileDAO {
             throw new Exception("Error retrieving file by PostID: " + e.getMessage());
         }
 
-        return null;
+        return files;
     }
     
     

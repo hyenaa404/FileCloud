@@ -5,7 +5,7 @@ import '../../styles/layout.css';
 
 export const LandingNavbar = () => {
     return (
-      <nav className="navbar">
+      <nav className="custom-navbar">
         <Link to="/">Home</Link>
         <Link to="/register">Register</Link>
         <Link to="/login">Login</Link>
@@ -16,7 +16,7 @@ export const LandingNavbar = () => {
 
   export const HomeNavbar = () => {
     return (
-      <nav className="navbar">
+      <nav className="custom-navbar">
         <Link to="/home">Home</Link>
         <Link to="/file">File</Link>
         <Link to="/setting">Setting</Link>

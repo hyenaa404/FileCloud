@@ -11,6 +11,7 @@ import PrivateRoute from './private-route';
 import MainLayout from '../layouts/MainLayout';
 import Logout from '../features/authenticate/components/Logout';
 import { LoginGoogle } from '../features/authenticate/components/LoginGoogle';
+import { FolderViewer } from '../features/folder/components/FolderViewer';
 
 // export const router = createBrowserRouter([
 //   {
@@ -43,7 +44,8 @@ export const router = createBrowserRouter([
       { path: 'setting', element: <Setting /> },
       { path: 'file', element: <FileViewer /> },
       { path: 'logout', element: <Logout /> },
-      { path: 'login-google', element: <LoginGoogle /> }
+      { path: 'login-google', element: <LoginGoogle /> },
+      { path: 'folder', element: <FolderViewer/>}
       
       
     ]

@@ -19,8 +19,8 @@ import model.Folder;
 public class FolderDAO {
     private DBContext dbContext;
 
-    public FolderDAO(DBContext dbContext) {
-        this.dbContext = dbContext;
+    public FolderDAO() {
+        dbContext = new DBContext();
     }
     
     public boolean checkConnection() throws Exception {
@@ -62,45 +62,23 @@ public class FolderDAO {
         return null;
     }
     
+   
     
-    public Folder getUserRootFolderByUserID(int userID) throws Exception{
-        Folder folder;
-        String query = "SELECT * FROM Folder WHERE ParentID IS NULL AND UserID = ?";
-
-        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, userID);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    folder = new Folder(
-                            rs.getInt("FolderID"),
-                            rs.getString("Name"),
-                            rs.getInt("ParentID"),
-                            rs.getInt("OwnerID"),
-                            rs.getTimestamp("CreatedAt"),
-                            rs.getString("PrivacyLevel")
-                            
-                    );
-                    return folder;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new Exception("Error retrieving folder by FolderID: " + e.getMessage());
-        }
-
-        return null;
-    }
-    
-    public List<Folder> getListFoldersByParentID(int parentID) throws Exception{
+    public List<Folder> getListFoldersByParentID(int parentID, int userID) throws Exception{
         List<Folder> folders = new ArrayList();
-        String query = "SELECT * FROM Folder WHERE ParentID = ?";
+        String query = "SELECT * FROM Folders WHERE  ParentID = ?";
+        if (parentID == 0){
+            query = "SELECT * FROM Folders WHERE ParentID IS NULL AND OwnerID = ?";
+        }
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, parentID);
+            if(parentID == 0){
+                ps.setInt(1, userID);
+            }
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     Folder folder = new Folder(
                             rs.getInt("FolderID"),
                             rs.getString("Name"),
@@ -116,7 +94,7 @@ public class FolderDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new Exception("Error retrieving folder by ParentID: " + e.getMessage());
-        }
+        };
 
         return folders;
     }
