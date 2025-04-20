@@ -1,61 +1,88 @@
-form {
-  max-width: 400px;
-  margin: 100px auto;
-  padding: 2rem;
-  background-color: #ffffff;
+.login-wrapper {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form {
+  background-color: white;
+  padding: 40px 30px;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-  box-sizing: border-box;
-}
-
-form * {
-  box-sizing: border-box;
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
-  color: #333;
-}
-
-input[type="email"],
-input[type="password"] {
+  box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 1rem;
+  max-width: 400px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 15px;
-  transition: border-color 0.3s;
+  font-size: 14px;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-button {
-  margin: 0 10%;
-  width: 30%;
+.btn-primary {
+  width: 100%;
   padding: 12px;
-  background-color: #007bff;
-  color: white;
+  background-color: #0d6efd;
   border: none;
-  font-size: 16px;
+  color: white;
   border-radius: 8px;
+  font-weight: bold;
   cursor: pointer;
+  margin-top: 10px;
   transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
-  background-color: #0056b3;
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #999;
+  font-size: 14px;
+}
+
+.btn-google {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #fff;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.btn-google img {
+  margin-right: 8px;
+}
+
+.btn-google:hover {
+  background-color: #f7f7f7;
 }

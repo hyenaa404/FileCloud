@@ -74,17 +74,51 @@ export default function LoginForm() {
     //     }
     //   };
 
-    return (
-        <form onSubmit={handleLogin}>
+  
+    
+      return (
+        <div className="login-wrapper">
+          <form className="login-form" onSubmit={handleLogin}>
             <h2>Login</h2>
-            <label htmlFor="email" >Email: </label>
-            <input id="email" type="email"value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <label htmlFor="password" >Password: </label>
-            <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
-            <button type="submit">Login</button>
-            <a href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/FileCloud/login-google&response_type=code
-                     &client_id=800437652534-oivrrr4du8sdgtc3oh6cnk759rgmo86j.apps.googleusercontent.com&approval_prompt=force" class="social">
-                <button type="button">Google</button></a>
-        </form>
-    );
-}
+    
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input 
+                id="email" 
+                type="email"
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+                placeholder="Enter your email"
+              />
+            </div>
+    
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input 
+                id="password" 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+                placeholder="Enter your password"
+              />
+            </div>
+    
+            <button type="submit" className="btn-primary">Login</button>
+    
+            <div className="divider">or</div>
+    
+            <a 
+              href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/FileCloud/login-google&response_type=code&client_id=800437652534-oivrrr4du8sdgtc3oh6cnk759rgmo86j.apps.googleusercontent.com&approval_prompt=force" 
+              className="btn-google"
+            >
+              <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google icon" />
+              Login with Google
+            </a>
+          </form>
+        </div>
+      );
+    };
+    
+    
