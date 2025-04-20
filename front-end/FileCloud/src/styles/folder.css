@@ -83,4 +83,63 @@
     font-size: 11px;
     color: #888;
   }
+
+  
+  .folder-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  .folder-link:hover .folder-card {
+    background-color: #f0f0f0;
+  }
+
+
+
+
+  /* upload */
+
+  .upload-container {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 400px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .upload-container h3 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .upload-input {
+    margin-bottom: 15px;
+  }
+  
+  .upload-input input[type="file"] {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .upload-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .upload-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .status-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+  }
   

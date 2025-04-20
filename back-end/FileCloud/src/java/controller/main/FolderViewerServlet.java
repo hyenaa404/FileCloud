@@ -104,7 +104,7 @@ public class FolderViewerServlet extends HttpServlet {
         List<Folder> listFolder = retrieveFoldersList(folderProperties.getFolderID(), response);
 
         response.setContentType("application/json");
-        response.getWriter().write("{\"listFile\": \"" +  new Gson().toJson(listFile) + "\", " + "\"listFolder\": \"" +  new Gson().toJson(listFolder) + "\"}");
+        response.getWriter().write("{\"listFile\": " + new Gson().toJson(listFile) + ", " + "\"listFolder\": " + new Gson().toJson(listFolder) + "}");
 
     }
     

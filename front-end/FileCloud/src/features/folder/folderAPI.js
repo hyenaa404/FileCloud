@@ -9,3 +9,17 @@ export const fetchFolderAPI = (folderId) => {
 }
 
 
+export const uploadFileAPI = (folderId, file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("folderId", folderId);
+  
+    return axiosInstance.post("/upload", formData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
+  
+

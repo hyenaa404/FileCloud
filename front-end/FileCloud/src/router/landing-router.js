@@ -12,6 +12,7 @@ import MainLayout from '../layouts/MainLayout';
 import Logout from '../features/authenticate/components/Logout';
 import { LoginGoogle } from '../features/authenticate/components/LoginGoogle';
 import { RootFolderViewer } from '../features/folder/components/RootFolderViewer';
+import { FolderViewer } from '../features/folder/components/FolderViewer';
 
 // export const router = createBrowserRouter([
 //   {
@@ -45,7 +46,8 @@ export const router = createBrowserRouter([
       { path: 'file', element: <FileViewer /> },
       { path: 'logout', element: <Logout /> },
       { path: 'login-google', element: <LoginGoogle /> },
-      { path: 'folder', element: <RootFolderViewer/>}
+      { path: 'folder', element: <RootFolderViewer/>},
+      { path: 'folder/:folderID', element: <FolderViewer/>}
       
       
     ]

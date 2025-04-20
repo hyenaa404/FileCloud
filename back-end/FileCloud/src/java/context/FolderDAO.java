@@ -35,7 +35,7 @@ public class FolderDAO {
     
     public Folder getFolderByID(int folderID) throws Exception{
         Folder folder;
-        String query = "SELECT * FROM Folder WHERE FolderID = ?";
+        String query = "SELECT * FROM Folders WHERE FolderID = ?";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, folderID);

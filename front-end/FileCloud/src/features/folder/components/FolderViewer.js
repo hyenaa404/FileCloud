@@ -5,22 +5,27 @@ import { Container, Row, Col, Card } from "react-bootstrap"
 import "../../../styles/folder.css"
 import { getFileIcon } from "../../../util/getFileIcon";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import UploadFile from "./UploadFile";
 
-export const RootFolderViewer = () => {
+export const FolderViewer = () => {
+    const { folderID } = useParams();
     const dispatch = useDispatch();
     const status = useSelector((state)=> state.folder.status)
     const fileList = useSelector((state)=> state.folder.fileList);
     const folderList = useSelector((state)=> state.folder.folderList);
 
     useEffect(()=> {
-        dispatch(fetchFolder())
+        dispatch(fetchFolder(folderID))
 
         console.log(folderList)
         console.log(fileList)
-    }, [dispatch])
+    }, [dispatch, folderID])
 
-    if(status === "succeeded"  && Array.isArray(folderList) && Array.isArray(fileList)){
-    const folders = folderList.map(folder=> {
+    if(status === "succeeded"){
+        
+    const folders = (folderList ?? []).map(folder=> {
+        
         return(<>
         <Col
           key={folder.folderID}
@@ -40,8 +45,11 @@ export const RootFolderViewer = () => {
           </Link>
         </Col>
         </>)
+        
     })
-    const files = fileList.map(file=> {
+   
+    const files = (fileList ?? []).map(file=> {
+        
         return(
             <><Col
             key={file.fileID}
@@ -61,7 +69,7 @@ export const RootFolderViewer = () => {
           </Col></>
         )
     })
-    return <Container><Row>{folders}</Row><Row>{files}</Row></Container>
+    return <Container><Row>{folders}</Row><Row>{files}</Row><UploadFile/></Container>
 }else if (status === "loading"){
     return <p>loading</p>
 }else return <p>failed</p>
