@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { fetchFile } from "./fileThunk";
+import { fetchFile, uploadFile } from "./fileThunk";
 
 
 
 export const fileSlice = createSlice({
     name: "file",
     initialState: { fileData: null, status: "idle" },
-    reducers: {},           //different
+    reducers: {},           
     extraReducers: (builder) => {
         builder
             .addCase(fetchFile.pending, (state) => {
@@ -21,6 +21,17 @@ export const fileSlice = createSlice({
             .addCase(fetchFile.rejected, (state, action) => {
                 console.log("error code: " + action.payload.status)
                 state.status = "failed";
+            })
+            // Upload file
+            .addCase(uploadFile.pending, (state) => {
+                state.uploadStatus = "uploading";
+            })
+            .addCase(uploadFile.fulfilled, (state, action) => {
+                state.uploadStatus = "uploaded";
+                console.log("File uploaded successfully");
+            })
+            .addCase(uploadFile.rejected, (state, action) => {
+                state.uploadStatus = "failed";
             });
     },
 });

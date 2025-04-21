@@ -27,7 +27,7 @@ const LandingPage = () => {
           <h1>Welcome to File Management App</h1>
           <p>Manage, share, and organize your files easily and securely.</p>
           <div className="landing-buttons">
-            {isAuthenticated === false? <ButtonGroup1/>: <ButtonGroup2/>}
+            {isAuthenticated === true? <ButtonGroup2/>: <ButtonGroup1/>}
           </div>
         </div>
       </div>

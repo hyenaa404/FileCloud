@@ -6,7 +6,7 @@ import "../../../styles/folder.css"
 import { getFileIcon } from "../../../util/getFileIcon";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import UploadFile from "./UploadFile";
+import UploadFile from "../../file/components/UploadFile";
 
 export const FolderViewer = () => {
     const { folderID } = useParams();

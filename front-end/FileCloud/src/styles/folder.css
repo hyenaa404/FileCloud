@@ -142,4 +142,12 @@
     font-size: 14px;
     color: #555;
   }
+
   
+  .upload-container button {
+    width: 100px !important;
+  }
+
+  .upload-body {
+    margin: 20px;
+  }

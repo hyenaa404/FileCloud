@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchFolderAPI, uploadFileAPI } from "./folderAPI";
+import { fetchFolderAPI} from "./folderAPI";
 
 export const fetchFolder = createAsyncThunk("folder/fetchFolder", async (folderId, {rejectWithValue}) => {
   try{
@@ -14,13 +14,3 @@ export const fetchFolder = createAsyncThunk("folder/fetchFolder", async (folderI
   }
 });
 
-export const uploadFile = createAsyncThunk("folder/uploadFile", async ({ folderId, file }, { rejectWithValue }) => {
-  try {
-    const response = await uploadFileAPI(folderId, file);
-    return response.data;
-  } catch (err) {
-    return rejectWithValue({
-      status: err.response?.status,
-    });
-  }
-});

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchFileAPI } from "./fileAPI";
+import { fetchFileAPI, uploadFileAPI } from "./fileAPI";
 
 // const API_URL = 'http://localhost:8080/FileCloud/file';
 
@@ -34,6 +34,18 @@ export const fetchFile = createAsyncThunk("file/fetchFile", async (fileId, {reje
       // message: err.response?.data?.message || "Fetch failed",
       // status: err.response?.status || 500
       status: err.response?.status 
+    });
+  }
+});
+
+export const uploadFile = createAsyncThunk("file/uploadFile", async (data, { rejectWithValue }) => {
+  try {
+    console.log(data.folderID)
+    const response = await uploadFileAPI(data);
+    return response.data;
+  } catch (err) {
+    return rejectWithValue({
+      status: err.response?.status,
     });
   }
 });

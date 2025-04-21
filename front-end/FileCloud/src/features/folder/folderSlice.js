@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchFolder, uploadFile } from "./folderThunk";
+import { fetchFolder } from "./folderThunk";
 
 export const folderSlice = createSlice({
     name: "folder",
@@ -20,18 +20,7 @@ export const folderSlice = createSlice({
                 state.status = "failed"
                 console.log("error code: " + action.payload.status)
             })
-            // Upload file
-            .addCase(uploadFile.pending, (state) => {
-                state.uploadStatus = "uploading";
-            })
-            .addCase(uploadFile.fulfilled, (state, action) => {
-                state.uploadStatus = "uploaded";
-                console.log("File uploaded successfully");
-            })
-            .addCase(uploadFile.rejected, (state, action) => {
-                state.uploadStatus = "failed";
-                console.log("Upload error: " + action.payload.status);
-            });
+            
     },
 })
 

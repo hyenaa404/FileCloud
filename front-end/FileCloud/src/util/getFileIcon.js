@@ -8,6 +8,7 @@ export const getFileIcon = (type) => {
         case "jpg":
         case "png":
         case "jpeg":
+        case "image":
             return "🖼️";
         case "mp4":
         case "mov":

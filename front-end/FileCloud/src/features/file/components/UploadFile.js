@@ -1,13 +1,21 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadFile, fetchFolder } from "../folderThunk";
+import { uploadFile } from "../fileThunk";
 import { useParams } from "react-router-dom";
+import { fetchFolder } from "../../folder/folderThunk";
+import { Button } from "react-bootstrap";
 
 const UploadFile = () => {
-  const { folderId } = useParams(); 
+  const { folderID } = useParams(); 
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
   const uploadStatus = useSelector((state) => state.folder.uploadStatus);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(!isVisible);
+  };
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -15,16 +23,19 @@ const UploadFile = () => {
 
   const handleUpload = () => {
     if (!file) return;
-    dispatch(uploadFile({ folderId, file }))
+    console.log("FOLDER ID" + folderID)
+    dispatch(uploadFile({ folderID, file} ))
       .unwrap()
       .then(() => {
-        dispatch(fetchFolder(folderId)); // Refresh folder content sau khi upload
+        dispatch(fetchFolder(folderID)); 
       });
   };
 
   return (
     <div className="upload-container">
-      <h3>Upload File</h3>
+      <Button className="btn-secondary" onClick = {handleClick}>Upload</Button>
+      {isVisible &&
+      <div className="upload-body">
       <div className="upload-input">
         <input type="file" onChange={handleFileChange} />
       </div>
@@ -33,6 +44,9 @@ const UploadFile = () => {
       </button>
       <p className="status-text">Status: {uploadStatus}</p>
     </div>
+}
+    </div>
+      
   );
 };
 
