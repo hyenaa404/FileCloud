@@ -4,6 +4,7 @@ export const getFileIcon = (type) => {
             return "📄";
         case "doc":
         case "docx":
+        case "word":
             return "📝";
         case "jpg":
         case "png":
@@ -23,3 +24,4 @@ export const getFileIcon = (type) => {
             return "📁";
     }
 };
+

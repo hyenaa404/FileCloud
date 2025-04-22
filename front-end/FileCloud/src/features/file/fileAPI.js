@@ -9,9 +9,9 @@ export const fetchFileAPI = (fileId) => {
 export const uploadFileAPI = (data) => {
   const formData = new FormData();
   formData.append("file", data.file);
-  formData.append("folderId", data.folderID);
+  formData.append("folderID", data.folderID);
 
-  return axiosInstance.post("/upload", formData, {
+  return axiosInstance.post("/file", formData, {
     withCredentials: true,
     headers: {
       "Content-Type": "multipart/form-data",

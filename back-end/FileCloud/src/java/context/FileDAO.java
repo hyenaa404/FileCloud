@@ -4,6 +4,7 @@
  */
 package context;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,9 +34,22 @@ public class FileDAO {
     }
     
     public boolean insertFile(Files file){
-        
-        return true;
+        String query = "INSERT INTO Files (Name, FolderID, FileType, OwnerID, FilePath, PrivacyLevel) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, file.getName());
+            ps.setInt(2, file.getFolderID());
+            ps.setString(3, file.getFileType());
+            ps.setInt(4, file.getOwnerID());
+            ps.setString(5, file.getFilePath());
+            ps.setString(6, file.getPrvacyLevel());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+    
+ 
     
     public Files getFileByID(int fileID) throws Exception{
         Files file;
@@ -108,14 +122,28 @@ public class FileDAO {
     }
     
     
-    public static void main(String[] args) {
-        FileDAO dao = new FileDAO();
-        try {
-            Files file = dao.getFileByID(1);
-        System.out.println(file.getFilePath());
-        }catch(Exception e){
-            System.out.println("Error");
+    public String getFolderPath(int folderID) {
+        StringBuilder pathBuilder = new StringBuilder();
+        try (Connection conn = dbContext.getConnection()) {
+            while (folderID != 0) {
+                String sql = "SELECT Name, ParentID FROM Folders WHERE folderID = ?";
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setInt(1, folderID);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            String folderName = rs.getString("Name");
+                            folderID = rs.getInt("ParentID"); 
+                            pathBuilder.insert(0, folderName + File.separator); 
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return pathBuilder.toString();
     }
 
 }

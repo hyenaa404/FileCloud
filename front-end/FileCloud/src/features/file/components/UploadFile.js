@@ -6,7 +6,7 @@ import { fetchFolder } from "../../folder/folderThunk";
 import { Button } from "react-bootstrap";
 
 const UploadFile = () => {
-  const { folderID } = useParams(); 
+  const { folderID } = useParams();
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
   const uploadStatus = useSelector((state) => state.folder.uploadStatus);
@@ -23,30 +23,32 @@ const UploadFile = () => {
 
   const handleUpload = () => {
     if (!file) return;
-    console.log("FOLDER ID" + folderID)
-    dispatch(uploadFile({ folderID, file} ))
+      // const fileName = file.name;
+      // const extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+      
+    dispatch(uploadFile({ folderID, file }))
       .unwrap()
       .then(() => {
-        dispatch(fetchFolder(folderID)); 
+        dispatch(fetchFolder(folderID));
       });
   };
 
   return (
     <div className="upload-container">
-      <Button className="btn-secondary" onClick = {handleClick}>Upload</Button>
+      <Button className="btn-secondary" onClick={handleClick}>Upload</Button>
       {isVisible &&
-      <div className="upload-body">
-      <div className="upload-input">
-        <input type="file" onChange={handleFileChange} />
-      </div>
-      <button className="upload-button" onClick={handleUpload}>
-        Upload
-      </button>
-      <p className="status-text">Status: {uploadStatus}</p>
+        <div className="upload-body">
+          <div className="upload-input">
+            <input type="file" onChange={handleFileChange} />
+          </div>
+          <button className="upload-button" onClick={handleUpload}>
+            Upload
+          </button>
+          <p className="status-text">Status: {uploadStatus}</p>
+        </div>
+      }
     </div>
-}
-    </div>
-      
+
   );
 };
 
