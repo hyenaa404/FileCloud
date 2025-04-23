@@ -9,7 +9,7 @@ const UploadFile = () => {
   const { folderID } = useParams();
   const [file, setFile] = useState(null);
   const dispatch = useDispatch();
-  const uploadStatus = useSelector((state) => state.folder.uploadStatus);
+  const uploadStatus = useSelector((state) => state.folder.status);
 
   const [isVisible, setIsVisible] = useState(false);
 

@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import context.FileDAO;
 import context.PermissionDAO;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.FileOutputStream;
@@ -28,6 +29,7 @@ import model.Permission;
 import util.StringUtils;
 
 @WebServlet(name = "FileServlet", urlPatterns = {"/file"})
+@MultipartConfig
 public class FilePreviewServlet extends HttpServlet {
 
     Files fileProperties;
@@ -162,7 +164,7 @@ public class FilePreviewServlet extends HttpServlet {
 
         if (filePart != null && filePart.getSize() > 0) {
             // Build full folder path
-            String fullFolderPath = "user_" + user.getUserID() + fileDAO.getFolderPath(folderID);
+            String fullFolderPath = "user_" + user.getUserID() +"\\" + fileDAO.getFolderPath(folderID);
 
             String basePath = getServletContext().getRealPath("\\").replace("build\\", "") + "\\";
             File saveDir = new File(basePath, fullFolderPath);

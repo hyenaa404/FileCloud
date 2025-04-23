@@ -24,14 +24,14 @@ export const fileSlice = createSlice({
             })
             // Upload file
             .addCase(uploadFile.pending, (state) => {
-                state.uploadStatus = "uploading";
+                state.status = "uploading";
             })
             .addCase(uploadFile.fulfilled, (state, action) => {
-                state.uploadStatus = "uploaded";
+                state.status = "uploaded";
                 console.log("File uploaded successfully");
             })
             .addCase(uploadFile.rejected, (state, action) => {
-                state.uploadStatus = "failed";
+                state.status = "failed";
             });
     },
 });
