@@ -19,24 +19,19 @@ import { fetchFileAPI, uploadFileAPI } from "./fileAPI";
 // Khi gọi fetchFile(), nó không trả về trực tiếp Promise, mà thay vào đó, 
 // Redux sẽ xử lý các trạng thái như pending, fulfilled, rejected.
 
-export const fetchFile = createAsyncThunk("file/fetchFile", async (fileId, {rejectWithValue}) => {
-  try{
-  const response = await fetchFileAPI(fileId)
-// const response = await axios.get(API_URL + `?FileID=${fileId}`)
-  console.log(response)
-  return {
-    data: response.data.fileData,
-    role: response.data.userRole
-  };
-  }catch (err){
-    return rejectWithValue({
+// export const fetchFile = ("file/fetchFile", async (fileId, {rejectWithValue}) => {
+//   try{
+//   const response = await fetchFileAPI(fileId)
+//   console.log(response)
+//   return  response.data
+  
+//   }catch (err){
+//     return rejectWithValue({
         
-      // message: err.response?.data?.message || "Fetch failed",
-      // status: err.response?.status || 500
-      status: err.response?.status 
-    });
-  }
-});
+//       status: err.response?.status 
+//     });
+//   }
+// });
 
 export const uploadFile = createAsyncThunk("file/uploadFile", async (data, { rejectWithValue }) => {
   try {

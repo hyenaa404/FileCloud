@@ -2,9 +2,22 @@ import axios from 'axios';
 import axiosInstance from "../../services/axiosInstance";
 
 
-export const fetchFileAPI = (fileId) => {
-  return axiosInstance.get('/file' + `?FileID=${fileId}`)
+export const fetchFileAPI = async(fileId) => {
+  // return axiosInstance.get('/file' + `?FileID=${fileId}`, {
+  //   responseType: 'blob' 
+  // })
+  return await axiosInstance.get('/file?FileID=' + fileId, {
+    responseType: 'blob'
+})
 }
+
+// fetch('http://localhost:8080/api/file?id=123')
+//   .then(res => res.blob())
+//   .then(blob => {
+//     const url = URL.createObjectURL(blob);
+//     window.open(url); 
+//   });
+
 
 export const uploadFileAPI = (data) => {
   const formData = new FormData();
@@ -18,3 +31,4 @@ export const uploadFileAPI = (data) => {
     },
   });
 };
+

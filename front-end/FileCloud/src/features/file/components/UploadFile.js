@@ -42,7 +42,7 @@ const UploadFile = () => {
             <input type="file" onChange={handleFileChange} />
           </div>
           <button className="upload-button" onClick={handleUpload}>
-            Upload
+            Submit
           </button>
           <p className="status-text">Status: {uploadStatus}</p>
         </div>

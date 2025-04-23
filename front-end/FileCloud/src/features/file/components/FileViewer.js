@@ -1,39 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchFile } from "./fileSlide";
+import { useParams } from "react-router-dom";
 import { fetchFile } from "../fileThunk";
+import axiosInstance from "../../../services/axiosInstance";
+import { fetchFileAPI } from "../fileAPI";
+
 
 const FileViewer = () => {
+    const { fileID } = useParams();
     const dispatch = useDispatch();
-    const fileData = useSelector((state) => state.file.fileData);
     const status = useSelector((state) => state.file.status);
+    const [url, setUrl] = useState(null); 
+
 
     useEffect(() => {
+        const fetchBlob = async () => {
+            const response = await axiosInstance.get('/file?FileID=' + fileID, {
+                responseType: 'blob'
+            });
+            // const response = fetchFileAPI(fileID);
+            const url = URL.createObjectURL(response.data);
+            setUrl(url);
+        };
+    
+        fetchBlob();
+    }, [fileID]);
+
+    // useEffect(() => {
         
-        dispatch(fetchFile(1));
-    }, [dispatch]);
+    // }, [fileData]);
 
     if (status === "loading") return <p>Loading file...</p>;
     if (status === "failed") return <p>Failed to load file.</p>;
 
     return (
         <div>
-            <h2>File Preview</h2>
-            {fileData && (
+            {url && (
                 <iframe 
-                    src={`data:application/pdf;base64,${fileData}`} 
+                    src={url}
                     width="100%" 
                     height="500px"
+                    title="File Preview"
                 ></iframe>
-                // <iframe
-                //     src={`https://docs.google.com/gview?url=http://localhost:8080/FileCloud/FileCloud/file.xlsx&embedded=true`}
-                //     src={`data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,${fileData}`}
-                //     width="100%"
-                //     height="500px"
-                // ></iframe>
             )}
         </div>
     );
 };
+
 
 export default FileViewer;

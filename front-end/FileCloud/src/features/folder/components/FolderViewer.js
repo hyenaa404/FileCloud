@@ -59,6 +59,7 @@ export const FolderViewer = () => {
             xs={6}
             className="file-col"
           >
+            <Link to={`/file/${file.fileID}`} className="folder-link">
             <div className="file-card">
               <div className="file-icon">{getFileIcon(file.fileType)}</div>
               <div className="file-name">{file.name}</div>
@@ -66,6 +67,7 @@ export const FolderViewer = () => {
               <div className="file-meta">Uploaded: {file.uploadedAt}</div>
               <div className="file-meta">Type: {file.fileType}</div>
             </div>
+            </Link>
           </Col></>
         )
     })

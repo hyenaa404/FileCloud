@@ -164,7 +164,7 @@ public class FilePreviewServlet extends HttpServlet {
 
         if (filePart != null && filePart.getSize() > 0) {
             // Build full folder path
-            String fullFolderPath = "user_" + user.getUserID() +"\\" + fileDAO.getFolderPath(folderID);
+            String fullFolderPath = "uploads\\user_" + user.getUserID() +"\\" + fileDAO.getFolderPath(folderID);
 
             String basePath = getServletContext().getRealPath("\\").replace("build\\", "") + "\\";
             File saveDir = new File(basePath, fullFolderPath);
@@ -189,7 +189,7 @@ public class FilePreviewServlet extends HttpServlet {
             fileProperties = new Files();
             fileProperties.setName(fileName);
             fileProperties.setFileType(fileType);
-            fileProperties.setFilePath(fullFolderPath);
+            fileProperties.setFilePath(fullFolderPath + "\\" + fileName);
             fileProperties.setOwnerID(user.getUserID());
             fileProperties.setPrvacyLevel("Private");
             fileProperties.setFolderID(folderID);

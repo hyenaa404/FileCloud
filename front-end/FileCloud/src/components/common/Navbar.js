@@ -18,7 +18,7 @@ export const LandingNavbar = () => {
     return (
       <nav className="custom-navbar">
         <Link to="/home">Home</Link>
-        <Link to="/file">File</Link>
+        <Link to="/about">About</Link>
         <Link to="/setting">Setting</Link>
       </nav>
     );

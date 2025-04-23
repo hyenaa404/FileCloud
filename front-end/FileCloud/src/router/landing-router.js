@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
     children: [
       { path: 'home', element: <Home /> },
       { path: 'setting', element: <Setting /> },
-      { path: 'file', element: <FileViewer /> },
+      { path: 'file/:fileID', element: <FileViewer /> },
       { path: 'logout', element: <Logout /> },
       { path: 'login-google', element: <LoginGoogle /> },
       { path: 'folder', element: <RootFolderViewer/>},
