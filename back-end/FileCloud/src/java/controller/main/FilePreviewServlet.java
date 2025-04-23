@@ -26,6 +26,7 @@ import java.nio.file.Paths;
 import model.Account;
 import model.Files;
 import model.Permission;
+import org.apache.catalina.util.StringUtil;
 import util.StringUtils;
 
 @WebServlet(name = "FileServlet", urlPatterns = {"/file"})
@@ -82,9 +83,15 @@ public class FilePreviewServlet extends HttpServlet {
             return;
         }
 
-        response.setContentType("application/pdf");
+        String fileName = fileProperties.getName();
+        String extension = StringUtils.getFileExtension(fileName); 
+        String contentType = StringUtils.getMimeTypeByExtension(extension);
 
-        response.setHeader("Content-Disposition", "inline; filename=\"" + fileProperties.getName() + "\"");
+        response.setContentType(contentType);
+        response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
+
+
+//        response.setHeader("Content-Disposition", "inline; filename=\"" + fileProperties.getName() + "\"");
 
         try (FileInputStream in = new FileInputStream(file); OutputStream out = response.getOutputStream()) {
             byte[] buffer = new byte[4096];
@@ -152,8 +159,8 @@ public class FilePreviewServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int folderID = 0;
         try {
-        folderID = Integer.parseInt(req.getParameter("folderID"));
-        }catch (NumberFormatException e){
+            folderID = Integer.parseInt(req.getParameter("folderID"));
+        } catch (NumberFormatException e) {
             System.out.println(req.getParameter("folderID"));
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -164,7 +171,7 @@ public class FilePreviewServlet extends HttpServlet {
 
         if (filePart != null && filePart.getSize() > 0) {
             // Build full folder path
-            String fullFolderPath = "uploads\\user_" + user.getUserID() +"\\" + fileDAO.getFolderPath(folderID);
+            String fullFolderPath = "uploads\\user_" + user.getUserID() + "\\" + fileDAO.getFolderPath(folderID);
 
             String basePath = getServletContext().getRealPath("\\").replace("build\\", "") + "\\";
             File saveDir = new File(basePath, fullFolderPath);
@@ -184,7 +191,6 @@ public class FilePreviewServlet extends HttpServlet {
             try (InputStream input = filePart.getInputStream(); FileOutputStream output = new FileOutputStream(file)) {
                 input.transferTo(output);
             }
-            
 
             fileProperties = new Files();
             fileProperties.setName(fileName);
