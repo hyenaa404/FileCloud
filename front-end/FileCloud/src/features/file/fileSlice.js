@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
-import { fetchFile, uploadFile } from "./fileThunk";
+import { fetchFile, uploadFile, deleteFile } from "./fileThunk";
 
 
 
@@ -32,7 +32,18 @@ export const fileSlice = createSlice({
             })
             .addCase(uploadFile.rejected, (state, action) => {
                 state.status = "failed";
-            });
+            })
+
+            // delete file
+            .addCase(deleteFile.pending, (state) => {
+                state.status = "loading";
+            })
+            .addCase(deleteFile.fulfilled, (state, action) => {
+                state.status = "succeeded";
+            })
+            .addCase(deleteFile.rejected, (state, action) => {
+                state.status = "failed";
+            })
     },
 });
 

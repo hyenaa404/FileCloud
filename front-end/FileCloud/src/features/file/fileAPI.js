@@ -32,3 +32,13 @@ export const uploadFileAPI = (data) => {
   });
 };
 
+export const deleteFileAPI = (data) => {
+// console.log(data.fileID)
+  return axiosInstance.delete('/file',{
+    data: {fileID: data.fileID}
+  , 
+    withCredentials: true
+  })
+}
+
+

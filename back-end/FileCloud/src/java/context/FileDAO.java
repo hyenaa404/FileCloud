@@ -53,7 +53,7 @@ public class FileDAO {
     
     public Files getFileByID(int fileID) throws Exception{
         Files file;
-        String query = "SELECT * FROM Files WHERE FileID = ?";
+        String query = "SELECT * FROM Files WHERE FileID = ? AND STATUS = 1";
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, fileID);
@@ -83,12 +83,29 @@ public class FileDAO {
     }
     
     
+    
+    
+    public boolean deleteFileByID(int fileID) {
+        Files file;
+        String query = "UPDATE Files SET Status = 0 WHERE FileID = ?";
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, fileID);
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    
+    
     public List<Files> getFilesByParentID(int parentID, int userID) throws Exception{
         List<Files> files = new ArrayList<>();
         Files file;
-        String query = "SELECT * FROM Files WHERE FolderID = ?";
+        String query = "SELECT * FROM Files WHERE FolderID = ? AND STATUS = 1";
         if (parentID == 0){
-            query = "SELECT * FROM Files WHERE FolderID IS NULL AND OwnerID = ?";
+            query = "SELECT * FROM Files WHERE FolderID IS NULL AND OwnerID = ? AND STATUS = 1";
         }
 
         try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {

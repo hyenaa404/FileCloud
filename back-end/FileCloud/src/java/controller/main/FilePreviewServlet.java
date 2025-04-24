@@ -18,6 +18,7 @@ import context.PermissionDAO;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -27,6 +28,8 @@ import model.Account;
 import model.Files;
 import model.Permission;
 import org.apache.catalina.util.StringUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 import util.StringUtils;
 
 @WebServlet(name = "FileServlet", urlPatterns = {"/file"})
@@ -84,15 +87,13 @@ public class FilePreviewServlet extends HttpServlet {
         }
 
         String fileName = fileProperties.getName();
-        String extension = StringUtils.getFileExtension(fileName); 
+        String extension = StringUtils.getFileExtension(fileName);
         String contentType = StringUtils.getMimeTypeByExtension(extension);
 
         response.setContentType(contentType);
         response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
 
-
 //        response.setHeader("Content-Disposition", "inline; filename=\"" + fileProperties.getName() + "\"");
-
         try (FileInputStream in = new FileInputStream(file); OutputStream out = response.getOutputStream()) {
             byte[] buffer = new byte[4096];
             int bytesRead;
@@ -209,6 +210,37 @@ public class FilePreviewServlet extends HttpServlet {
 
 //        resp.getWriter().write("File uploaded to: " + file.getAbsolutePath());
         }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int fileID = 0;
+        StringBuilder jsonBuffer = new StringBuilder();
+        String line;
+        try (BufferedReader reader = req.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                jsonBuffer.append(line);
+            }
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonBuffer.toString());
+            fileID = jsonObject.getInt("fileID");
+            HttpSession session = req.getSession();
+            Account user = (Account) session.getAttribute("user");
+            FileDAO fileDAO = new FileDAO();
+            if (fileDAO.deleteFileByID(fileID)) {
+                resp.setContentType("application/json");
+                PrintWriter out = resp.getWriter();
+                out.print("{}");
+            } else {
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+
+        } catch (JSONException | NumberFormatException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
     }
 
 }
