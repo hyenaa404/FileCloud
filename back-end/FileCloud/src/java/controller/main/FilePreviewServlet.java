@@ -37,6 +37,7 @@ import util.StringUtils;
 public class FilePreviewServlet extends HttpServlet {
 
     Files fileProperties;
+    boolean isDownload = false;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +47,12 @@ public class FilePreviewServlet extends HttpServlet {
             fileID = Integer.parseInt(request.getParameter("FileID"));
 
             if (retrieveFileDetail(fileID, response)) {
+                String action = request.getParameter("action");
+
+                isDownload = action != null && action.equals("download");
+
                 handleDisplay(response);
+
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
@@ -91,8 +97,11 @@ public class FilePreviewServlet extends HttpServlet {
         String contentType = StringUtils.getMimeTypeByExtension(extension);
 
         response.setContentType(contentType);
-        response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
-
+        if (isDownload) {
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+        } else {
+            response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\""); //attachment
+        }
 //        response.setHeader("Content-Disposition", "inline; filename=\"" + fileProperties.getName() + "\"");
         try (FileInputStream in = new FileInputStream(file); OutputStream out = response.getOutputStream()) {
             byte[] buffer = new byte[4096];
@@ -262,6 +271,10 @@ public class FilePreviewServlet extends HttpServlet {
             HttpSession session = req.getSession();
             Account user = (Account) session.getAttribute("user");
             FileDAO fileDAO = new FileDAO();
+            try{
+            fileProperties = fileDAO.getFileByID(fileID);
+            String extesion = StringUtils.getFileExtension(fileProperties.getName());
+            fileName +="." + extesion;
             if (fileDAO.renameFileByID(fileID, fileName)) {
                 resp.setContentType("application/json");
                 PrintWriter out = resp.getWriter();
@@ -270,12 +283,14 @@ public class FilePreviewServlet extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
 
+            }catch(Exception e){
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+            
         } catch (JSONException | NumberFormatException e) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
     }
-    
-    
 
 }

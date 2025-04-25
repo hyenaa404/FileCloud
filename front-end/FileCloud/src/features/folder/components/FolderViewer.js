@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import UploadFile from "../../file/components/UploadFile";
 import { deleteFile, updateFile } from "../../file/fileThunk";
 import { getFileNameWithoutExtension } from "../../../util/stringUtil";
+import axiosInstance from "../../../services/axiosInstance";
 
 export const FolderViewer = () => {
   const { folderID } = useParams();
@@ -16,6 +17,7 @@ export const FolderViewer = () => {
   const status = useSelector((state) => state.folder.status)
   const fileList = useSelector((state) => state.folder.fileList);
   const folderList = useSelector((state) => state.folder.folderList);
+  const [url, setUrl] = useState(null);
 
   useEffect(() => {
     const action = "delete"
@@ -44,6 +46,43 @@ export const FolderViewer = () => {
       })
 
   }
+
+  // const handleDownload = (fileID) => {
+  //   const fetchBlob = async () => {
+  //     const response = await axiosInstance.get('/file?FileID=' + fileID + "&action=download", {
+  //         responseType: 'blob'
+  //     });
+  //     const url = URL.createObjectURL(response.data);
+  //     setUrl(url);
+  // };
+  // fetchBlob();
+  // }
+
+  const handleDownload = (fileID, fileName) => {
+    const fetchBlob = async () => {
+      const response = await axiosInstance.get('/file?FileID=' + fileID + "&action=download", {
+        responseType: 'blob'
+      });
+      
+      const url = URL.createObjectURL(response.data);
+  
+      
+      const link = document.createElement('a');
+      link.href = url;
+      
+      link.download = fileName; 
+      
+      document.body.appendChild(link);
+      link.click();
+  
+      document.body.removeChild(link);
+  
+      URL.revokeObjectURL(url);
+    };
+  
+    fetchBlob();
+  };
+  
 
   const [openMenuId, setOpenMenuId] = useState(null);
   
@@ -128,6 +167,7 @@ export const FolderViewer = () => {
               <div className="options-menu">
                 <button onClick={handleRenameFileClick}>Rename</button>
                 <button onClick={confirmDeleteFile}>Delete</button>
+                <button onClick={()=>handleDownload(file.fileID, file.name)}>Download</button>
               </div>
             )}
           </div>
