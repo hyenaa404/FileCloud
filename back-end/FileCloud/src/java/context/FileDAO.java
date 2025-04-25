@@ -99,6 +99,21 @@ public class FileDAO {
 
     }
     
+    public boolean renameFileByID(int fileID, String newName) {
+        Files file;
+        String query = "UPDATE Files SET Name = ? WHERE FileID = ?";
+
+        try (Connection conn = dbContext.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(2, fileID);
+            ps.setString(1, newName);
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+    
     
     public List<Files> getFilesByParentID(int parentID, int userID) throws Exception{
         List<Files> files = new ArrayList<>();

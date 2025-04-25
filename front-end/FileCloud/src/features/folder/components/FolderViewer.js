@@ -7,7 +7,8 @@ import { getFileIcon } from "../../../util/getFileIcon";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import UploadFile from "../../file/components/UploadFile";
-import { deleteFile } from "../../file/fileThunk";
+import { deleteFile, updateFile } from "../../file/fileThunk";
+import { getFileNameWithoutExtension } from "../../../util/stringUtil";
 
 export const FolderViewer = () => {
   const { folderID } = useParams();
@@ -27,6 +28,16 @@ export const FolderViewer = () => {
   const handleDelete = (fileID) => {
 
     dispatch(deleteFile({ fileID }))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchFolder(folderID))
+      })
+
+  }
+
+  const handleRename = (fileID, newName) => {
+
+    dispatch(updateFile({ fileID, newName }))
       .unwrap()
       .then(() => {
         dispatch(fetchFolder(folderID))
@@ -85,10 +96,10 @@ export const FolderViewer = () => {
       };
     
       const handleRenameFileClick = () => {
-        const newName = window.prompt("Enter new name for the file:", file.name);
+        const newName = window.prompt("Enter new name for the file:", getFileNameWithoutExtension(file.name));
         if (newName) {
-          // handleRename(file.fileID, newName);
-          console.log("Renamed to:", newName);
+          handleRename(file.fileID, newName);
+          // console.log("Renamed to:", newName);
         }
         setOpenMenuId(null);
       };

@@ -243,4 +243,39 @@ public class FilePreviewServlet extends HttpServlet {
 
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int fileID = 0;
+        String fileName;
+        StringBuilder jsonBuffer = new StringBuilder();
+        String line;
+        try (BufferedReader reader = req.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                jsonBuffer.append(line);
+            }
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject(jsonBuffer.toString());
+            fileID = jsonObject.getInt("fileID");
+            fileName = jsonObject.getString("fileName");
+            HttpSession session = req.getSession();
+            Account user = (Account) session.getAttribute("user");
+            FileDAO fileDAO = new FileDAO();
+            if (fileDAO.renameFileByID(fileID, fileName)) {
+                resp.setContentType("application/json");
+                PrintWriter out = resp.getWriter();
+                out.print("{}");
+            } else {
+                resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+
+        } catch (JSONException | NumberFormatException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+
+    }
+    
+    
+
 }

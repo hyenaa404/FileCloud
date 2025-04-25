@@ -2,13 +2,13 @@ import axios from 'axios';
 import axiosInstance from "../../services/axiosInstance";
 
 
-export const fetchFileAPI = async(fileId) => {
+export const fetchFileAPI = async (fileId) => {
   // return axiosInstance.get('/file' + `?FileID=${fileId}`, {
   //   responseType: 'blob' 
   // })
   return await axiosInstance.get('/file?FileID=' + fileId, {
     responseType: 'blob'
-})
+  })
 }
 
 // fetch('http://localhost:8080/api/file?id=123')
@@ -33,12 +33,28 @@ export const uploadFileAPI = (data) => {
 };
 
 export const deleteFileAPI = (data) => {
-// console.log(data.fileID)
-  return axiosInstance.delete('/file',{
-    data: {fileID: data.fileID}
-  , 
+  // console.log(data.fileID)
+  return axiosInstance.delete('/file', {
+    data: { fileID: data.fileID }
+    ,
     withCredentials: true
   })
+}
+
+export const updateFileAPI = (data) => {
+  return axiosInstance.put('/file', {
+
+    fileID: data.fileID,
+    fileName: data.newName
+  }
+    ,
+    {
+      withCredentials: true
+      ,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
 }
 
 
